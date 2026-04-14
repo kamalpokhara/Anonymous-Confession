@@ -1,0 +1,10 @@
+# Virtual Environment
+venv/
+
+# Local Database
+db.sqlite3
+db.sqlite3-journal
+
+# Python Bytecode
+__pycache__/
+*.py[cod]

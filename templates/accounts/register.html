@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Join Anonymously</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #1a1a1a; color: white; display: flex; justify-content: center; align-items: center; height: 100vh; }
+        .card { background: #2a2a2a; padding: 2rem; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); width: 350px; text-align: center; }
+        .id-display { font-family: monospace; color: #00ff88; font-size: 1.2rem; margin: 1rem 0; padding: 0.5rem; background: #111; border-radius: 4px; }
+        input { width: 100%; padding: 10px; margin: 10px 0; border-radius: 4px; border: none; box-sizing: border-box; }
+        button { width: 100%; padding: 10px; background: #00ff88; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; }
+        button:disabled { background: #555; cursor: not-allowed; }
+        #status { font-size: 0.8rem; margin-top: 10px; color: #aaa; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2>Create Account</h2>
+    <p>Your Anonymous ID:</p>
+    <div id="display-username" class="id-display">Loading ID...</div>
+    
+    <input type="password" id="password-input" placeholder="Choose a Password">
+    <button id="register-btn" onclick="handleRegistration()">Register</button>
+    <div id="status"></div>
+</div>
+
+<script src="/static/js/register.js"></script>
+<script>
+    // Helper function for Django CSRF
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    // Initialize the ID when page loads
+    window.onload = async () => {
+        const infoResponse = await fetch('/accounts/get-info/');
+        const data = await infoResponse.json();
+        document.getElementById('display-username').innerText = data.username;
+        // Store these in global variables for the handleRegistration function to use
+        window.currentChallenge = data.challenge;
+        window.currentDifficulty = data.difficulty;
+        window.currentUsername = data.username;
+    };
+</script>
+</body>
+</html>
