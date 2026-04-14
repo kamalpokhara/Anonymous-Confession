@@ -1,11 +1,11 @@
 # AnonyConfess 🎭
-> **Status: 🚧 Work in Progress (Development Phase)**
+> **Status: Work in Progress (Development Phase)**
 
 AnonyConfess is a privacy-first web application designed for truly anonymous digital expressions. By removing traditional identity markers like email addresses and implementing a Proof-of-Work (PoW) gate, it ensures a bot-free environment without compromising user privacy.
 
 ---
 
-## ✨ Key Features (Implemented)
+## Key Features (Implemented)
 
 - **Email-less Authentication**: Custom `AbstractUser` model with stripped email requirements to ensure zero contact-data collection.
 - **PoW Registration Gate**: A client-side SHA-256 mining mechanism that prevents spam accounts by requiring computational effort before registration.
@@ -14,7 +14,7 @@ AnonyConfess is a privacy-first web application designed for truly anonymous dig
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 - **Framework**: Django 5.x (Python)
 - **Database**: SQLite (Local Development)
@@ -22,7 +22,7 @@ AnonyConfess is a privacy-first web application designed for truly anonymous dig
 
 ---
 
-## ⚙️ Quick Start (For Contributors)
+## Quick Start (For Contributors)
 
 To get this project running on your local machine:
 
