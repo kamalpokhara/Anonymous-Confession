@@ -7,7 +7,7 @@ class ProofOfWorkMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
-        if request.method == 'POST' and request.path in ['accounts/login/', 'accounts/register/']:
+        if request.method == 'POST' and request.path in [ 'accounts/register/']:
             nonce = request.POST.get('pow_nonce')
             # challenge = request.POST.get('pow_challenge')
             username = request.POST.get('username')
@@ -20,7 +20,7 @@ class ProofOfWorkMiddleware:
             content = f"{challenge}{username}{nonce}".encode()
             result_hash =  hashlib.sha256(content).hexdigest()
 
-            difficulty =  2 
+            difficulty =  4 
             prefix = '0' * difficulty
 
             if not result_hash.startswith(prefix):

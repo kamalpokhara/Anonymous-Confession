@@ -16,8 +16,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.shortcuts import redirect
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('accounts/', include('accounts.urls')),
+    path("admin/", admin.site.urls),
+    path("", include("accounts.urls")),
+    # This line redirects the empty base URL to your new accounts/home/
+    # path("", lambda request: redirect("accounts/", permanent=False)),
+    # path("", lambda request: redirect("home", permanent=False)),
 ]

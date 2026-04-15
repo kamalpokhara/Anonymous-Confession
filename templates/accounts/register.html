@@ -10,6 +10,16 @@
         button { width: 100%; padding: 10px; background: #00ff88; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; }
         button:disabled { background: #555; cursor: not-allowed; }
         #status { font-size: 0.8rem; margin-top: 10px; color: #aaa; }
+        #password-input{
+            background: #000000;
+        }
+        #go-to-login{
+            padding: 10px; background: #00ff88; border-radius: 4px; 
+           font-weight:700; cursor: pointer; 
+           color: #000000; 
+           text-decoration: none;
+           font-size: 0.8rem;
+        }
     </style>
 </head>
 <body>
@@ -19,9 +29,18 @@
     <p>Your Anonymous ID:</p>
     <div id="display-username" class="id-display">Loading ID...</div>
     
-    <input type="password" id="password-input" placeholder="Choose a Password">
+    <input type="password" id="password-input" placeholder="Choose a Password" autocomplete="off" >
     <button id="register-btn" onclick="handleRegistration()">Register</button>
+    <br> 
+    <p>Already registered? login instead</p>
+
+    <button id="register-btn" ">
+        <a href={% url 'login' %} id="go-to-login">Go to login page</a>  
+    </button>
+    
     <div id="status"></div>
+    
+
 </div>
 
 <script src="/static/js/register.js"></script>

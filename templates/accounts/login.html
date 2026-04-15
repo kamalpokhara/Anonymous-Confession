@@ -1,0 +1,36 @@
+{% extends 'accounts/base.html' %}
+
+{% block title %}Login | AnonyConfess{% endblock %}
+
+{% block content %}
+<div style="display: flex; justify-content: center; align-items: center; min-height: 60vh;">
+    <div style="background: #2a2a2a; padding: 2.5rem; border-radius: 12px; width: 350px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+        <h2 style="text-align: center; margin-bottom: 1.5rem; color: #00ff88;">Login to Ghost</h2>
+        
+        <form method="post">
+            {% csrf_token %}
+            
+            <div style="margin-bottom: 1rem;">
+                <label style="display: block; font-size: 0.8rem; color: #aaa; margin-bottom: 5px;">Your Anonymous ID</label>
+                <input type="text" name="username" required 
+                       style="width: 100%; padding: 10px; background: #111; border: 1px solid #444; color: white; border-radius: 4px;">
+            </div>
+
+            <div style="margin-bottom: 1.5rem;">
+                <label style="display: block; font-size: 0.8rem; color: #aaa; margin-bottom: 5px;">Password</label>
+                <input type="password" name="password" required 
+                       style="width: 100%; padding: 10px; background: #111; border: 1px solid #444; color: white; border-radius: 4px;">
+            </div>
+
+            <button type="submit" 
+                    style="width: 100%; padding: 12px; background: #00ff88; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; color: #1a1a1a;">
+                Enter Shadow Mode
+            </button>
+        </form>
+
+        <p style="text-align: center; font-size: 0.8rem; margin-top: 1rem; color: #888;">
+            Don't have an ID? <a href="{% url 'register' %}" style="color: #00ff88; text-decoration: none;">Join here</a>
+        </p>
+    </div>
+</div>
+{% endblock %}
