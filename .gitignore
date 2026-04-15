@@ -1,7 +1,7 @@
 # Virtual Environment
 venv/
 
-username.txt
+usernames.txt
 
 # Local Database
 db.sqlite3
