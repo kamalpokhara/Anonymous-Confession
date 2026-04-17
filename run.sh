@@ -6,7 +6,7 @@ else
     PYTHON_CMD="python"
 fi
 
-VENV_NAME="venv"
+VENV_NAME="../venv"
 
 # 2. Create venv if missing
 if [ ! -d "$VENV_NAME" ]; then
