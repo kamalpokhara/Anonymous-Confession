@@ -1,0 +1,41 @@
+{% extends 'accounts/base.html' %}
+{% load static %}
+{% block title %}Create Confession | AnonyConfess{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/create.css' %}">
+{% endblock %}
+{% block content %}
+<div class="create-wrapper">
+    <div class="glass-card">
+        <h1>Share a Secret</h1>
+        <p class="subtitle">Once shared, it belongs to the void. No names. No traces.</p>
+        
+        <form method="POST">
+            {% csrf_token %}
+            <textarea name="content" placeholder="What's your secret?" maxlength="10000" required></textarea>
+            
+            <div class="form-footer">
+                <span id="wordCount"><i>0</i></span>
+                <div class="btns">
+                    <a href="{% url 'home' %}" class="btn-secondary">Cancel</a>
+                    <button type="submit" class="btn-primary">Post Anonymously</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    // Live character counter for better UX
+    const tx = document.querySelector('textarea');
+   const wordDisplay = document.querySelector('#wordCount');
+    tx.addEventListener('input', () => {
+        const val = tx.value;
+        const words = val.trim() ? val.trim().split(/\s+/).filter(Boolean) : [];
+    
+    if (wordDisplay) {
+        wordDisplay.innerText = words.length;
+    }
+});
+</script>
+{% endblock %}

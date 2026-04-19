@@ -1,89 +1,20 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}AnonyConfess{% endblock %}</title>
-    <style>
-        :root {
-            --bg-color: #1a1a1a;
-            --card-bg: #2a2a2a;
-            --accent: #00ff88;
-            --text-main: #ffffff;
-            --text-dim: #aaa;
-        }
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    
+    <script>
+        window.DJANGO_CONFIG = {
+            csrfToken: "{{ csrf_token }}",
+            isAuthenticated: "{{ user.is_authenticated|yesno:'true,false' }}" === "true",
+            username: "{{ user.username|default:'' }}"
+        };
+    </script>
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        /* Navbar Styling */
-        nav {
-            background: var(--card-bg);
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-        }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: var(--accent);
-            text-decoration: none;
-            letter-spacing: 1px;
-        }
-
-        .nav-links a {
-            color: var(--text-main);
-            text-decoration: none;
-            margin-left: 20px;
-            font-size: 0.9rem;
-            transition: color 0.3s;
-        }
-
-        .nav-links a:hover {
-            color: var(--accent);
-        }
-
-        .user-tag {
-            font-family: monospace;
-            background: #111;
-            padding: 4px 8px;
-            border-radius: 4px;
-            color: var(--accent);
-            font-size: 0.85rem;
-        }
-
-        /* Main Content Area */
-        main {
-            flex: 1;
-            padding: 2rem;
-            max-width: 800px;
-            margin: 0 auto;
-            width: 100%;
-            box-sizing: border-box;
-        }
-
-        footer {
-            text-align: center;
-            padding: 1rem;
-            font-size: 0.8rem;
-            color: var(--text-dim);
-            border-top: 1px solid #333;
-        }
-
-        .btn-logout {
-            color: #ff4444 !important;
-        }
-    </style>
     {% block extra_css %}{% endblock %}
 </head>
 <body>
@@ -92,6 +23,7 @@
         <a href="{% url 'home' %}" class="logo">AnonyConfess 🎭</a>
         <div class="nav-links">
             {% if user.is_authenticated %}
+                <a id="post-btn" href="{% url 'create_confession' %}">Post</a>
                 <span class="user-tag">{{ user.username }}</span>
                 <a href="{% url 'home' %}">Feed</a>
 
@@ -100,12 +32,12 @@
                 return false;">Logout</a>
 
                 <form id="logout-form" action="{% url 'logout' %}" method="post" style="display: none;">
-                {% csrf_token %}
+                    {% csrf_token %}
                 </form>
 
             {% else %}
-                <a href={% url 'login' %}>Login</a>
-                <a href={% url 'register' %}>Join</a>
+                <a href="{% url 'login' %}">Login</a>
+                <a href="{% url 'register' %}">Join</a>
             {% endif %}
         </div>
     </nav>
@@ -116,9 +48,12 @@
     </main>
 
     <footer>
-        &copy; 2026 AnonyConfess | 7th Sem Project | Built for Privacy
+        &copy; 2026 AnonyConfess | Built for Privacy
     </footer>
 
-    {% block extra_js %}{% endblock %}
+    <script src="{% static 'js/base.js' %}"></script>
+    
+    {% block extra_js %}
+    {% endblock %}
 </body>
 </html>

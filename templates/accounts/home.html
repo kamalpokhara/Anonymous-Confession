@@ -1,13 +1,56 @@
 {% extends "accounts/base.html"  %}
 
 {% block title %}Home | AnonyConfess{% endblock %}
-
+{% block extra_css %}
+    {% load static %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+{% endblock %}
 {% block content %}
 {% if user.is_authenticated %}
     <h2>Welcome back  <span style=" color: #00ff88;" > <b> <i> {{ user.username }}</b></i></span> to Anonymous Confession. Ready to Confess your feelings?</h2>
 {% else %}
     <h2>Welcome to Anonymous Confession. Please <i> <a href="{% url 'login' %}" style=" color: #00ff88;" >Login</a></i> to Confess. </h2>
 {% endif %}
-
     <h2>Recent Confessions</h2>
+
+<div class="confession-grid">
+    {% for secret in confessions %}
+    <div class="confession-card" id="confession-{{ secret.id }}">
+        <div class="card-side">
+            <button class="upvote-btn {% if user in secret.likes.all %}active{% endif %}" 
+                    id="like-btn-{{ secret.id }}"
+                    onclick="handleLike(event, '{{ secret.id }}')">
+                <span class="icon">▲</span>
+                <span id="like-count-{{ secret.id }}">{{ secret.total_likes }}</span>
+            </button>
+        </div>
+
+        <div class="card-main" onclick="openConfession('{{ secret.id }}', '{{ secret.content|escapejs }}')">
+            <div class="card-meta">
+                <span class="anon-handle">#{{ secret.id }}</span>
+                <span class="dot">•</span>
+                <span class="time">{{ secret.created_at|timesince }} ago</span>
+            </div>
+            <div class="card-body">
+                <p>{{ secret.content|truncatewords:40 }}</p>
+            </div>
+            <div class="card-footer">
+                <span class="comment-trigger">💬{{ secret.comments.count }} Comments</span> 
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+<!--  -->
+<div id="confessionModal" class="modal">
+    <div class="modal-content">
+        <a class="close" id="close-sign" onclick="closeModal()">close</a>
+        <div id="modalBody"> </div>
+    </div>
+</div>
+{% endblock %}
+<!-- JS -->
+{% block extra_js %}
+    {% load static %}
+    <script src="{% static 'js/home.js' %}"></script>
 {% endblock %}

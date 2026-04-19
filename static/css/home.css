@@ -1,0 +1,126 @@
+/* The Background Overlay */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 2000; /* Ensure it's above everything */
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #030303; /* Deep black for focus */
+  overflow-y: auto; /* Makes the entire screen scrollable if content is long */
+}
+
+/* The Content Wrapper */
+.modal-content {
+  
+  background-color: #1a1a1b; /* Reddit dark color */
+  margin: 0 auto; /* Center horizontally */
+  padding: 40px 20px;
+
+  max-width: 800px; /* Limits the text width for readability */
+  min-height: 100vh; /* Ensures it stretches top-to-bottom */
+  border-left: 1px solid #343536;
+  border-right: 1px solid #343536;
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+  
+}
+
+/* The Close Button - Now floating at the top-right */
+#close-sign {
+  color: #818384;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: color 0.2s;
+  /* border: 2px solid #818384; */
+  padding: 5px;
+}
+
+#close-sign:hover {
+  color: #ff0000;
+}
+
+
+.confession-grid {
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+}
+
+.confession-card {
+  background: #1a1a1b; /* Reddit Dark-ish color */
+  border: 1px solid #343536;
+  border-radius: 8px;
+  display: flex;
+  transition: border 0.2s;
+  overflow: hidden;
+}
+
+.confession-card:hover {
+  border: 1px solid #4d4d4e;
+  cursor: pointer;
+}
+
+/* Upvote Section */
+.card-side {
+  background: #151516;
+
+  padding: 0 8px;
+  padding-top: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.upvote-btn {
+  background: transparent;
+  border: none;
+  color: #d7dadc;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.1s ease;
+}
+.upvote-btn:active {
+  transform: scale(1.2); /* Small "pop" animation when clicked */
+}
+.upvote-btn:hover .icon {
+  color: #ff4500;
+} /* Reddit Orange */
+
+/* Main Content Area */
+.card-main {
+  flex-grow: 1;
+  padding: 12px;
+}
+
+.card-meta {
+  font-size: 12px;
+  color: #818384;
+  margin-bottom: 8px;
+}
+
+.anon-handle {
+  color: #00ff88;
+  font-weight: bold;
+}
+
+.card-body p {
+  color: #d7dadc;
+  font-size: 15px;
+  line-height: 21px;
+}
+
+.card-footer {
+  margin-top: 12px;
+  font-size: 12px;
+  font-weight: bold;
+  color: #818384;
+}
+

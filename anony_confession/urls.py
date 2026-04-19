@@ -21,6 +21,7 @@ from django.shortcuts import redirect
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("accounts.urls")),
+    path("confessions/", include("user_confession.urls")),
     # This line redirects the empty base URL to your new accounts/home/
     # path("", lambda request: redirect("accounts/", permanent=False)),
     # path("", lambda request: redirect("home", permanent=False)),

@@ -7,6 +7,16 @@ from django.views.decorators.csrf import csrf_exempt
 from .models import AnonymousUser
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
+from django.urls import reverse
+
+
+# centralized function to determine PoW difficulty based on URL path
+def get_pow_difficulty(path):
+    if path == reverse("register_user"):
+        return 4
+    elif path == reverse("login"):
+        return 4
+    return 0  # No PoW required for likes, comments, etc.
 
 
 def register_page(request):
@@ -20,11 +30,13 @@ def get_registration_info(request):
     challenge = str(uuid.uuid4())[:4]
     request.session['pow_challenge'] = challenge
 
-    return JsonResponse({
-        'username':preview_username, 
-        'challenge': challenge, 
-        'difficulty': 4,
-    })
+    return JsonResponse(
+        {
+            "username": preview_username,
+            "challenge": challenge,
+            "difficulty": get_pow_difficulty(reverse("register_user")),
+        }
+    )
 
 def register_user(request):
     if request.method == 'POST':
@@ -42,9 +54,15 @@ def register_user(request):
         user.set_password(password)
         user.save()
 
+        login(request, user)
     return JsonResponse({'message': 'User registered successfully', 'username': user.username})
 
 
-# @login_required
+from user_confession.models import Confession 
+
 def home(request):
-    return render(request, "accounts/home.html")
+    confessions = Confession.objects.all().order_by("-created_at")
+    context= {
+        'confessions': confessions
+    }
+    return render(request, "accounts/home.html", context)
