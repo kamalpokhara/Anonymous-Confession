@@ -1,13 +1,20 @@
-# Register your models here.
 from django.contrib import admin
 from .models import Confession
 
 
-# @admin.register(Confession)
-# class ConfessionAdmin(admin.ModelAdmin):
-#     list_display = ("user", "content_preview", "created_at", "total_likes")
-#     list_filter = ("created_at", "category")
-#     search_fields = ("content", "user__username")
+@admin.register(Confession)
+class ConfessionAdmin(admin.ModelAdmin):
+    # Show the ID, Title, and User in the list
+    list_display = ("id", "title", "user", "created_at")
 
-#     def content_preview(self, obj):
-#         return obj.content[:50] + "..."
+    # Filter by date or user
+    list_filter = ("created_at", "user")
+
+    # Search by title or content
+    search_fields = ("title", "content")
+
+    # Make the list clickable via the title
+    list_display_links = ("id", "title")
+
+    # Sort by newest first
+    ordering = ("-created_at",)

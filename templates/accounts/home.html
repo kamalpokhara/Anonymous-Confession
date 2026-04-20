@@ -4,14 +4,15 @@
 {% block extra_css %}
     {% load static %}
 <link rel="stylesheet" href="{% static 'css/home.css' %}">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
 {% endblock %}
 {% block content %}
 {% if user.is_authenticated %}
-    <h2>Welcome back  <span style=" color: #00ff88;" > <b> <i> {{ user.username }}</b></i></span> to Anonymous Confession. Ready to Confess your feelings?</h2>
+    <h2>Welcome back  <span style=" color: #00ff88;"><b><i>&thinsp;{{ user.username }}&thinsp;</b> </i> </span>to Anonymous Confession. Ready to Confess your feelings?</h2>
 {% else %}
-    <h2>Welcome to Anonymous Confession. Please <i> <a href="{% url 'login' %}" style=" color: #00ff88;" >Login</a></i> to Confess. </h2>
+    <h2>Welcome to Anonymous Confession. Please <i><a href="{% url 'login' %}" style=" color: #00ff88;" >Login</a></i> to Confess. </h2>
 {% endif %}
-    <h2>Recent Confessions</h2>
+    <h2 id="heading-2">Recent Confessions</h2>
 
 <div class="confession-grid">
     {% for secret in confessions %}
@@ -22,17 +23,18 @@
                     onclick="handleLike(event, '{{ secret.id }}')">
                 <span class="icon">▲</span>
                 <span id="like-count-{{ secret.id }}">{{ secret.total_likes }}</span>
-            </button>
+            </button> 
         </div>
 
-        <div class="card-main" onclick="openConfession('{{ secret.id }}', '{{ secret.content|escapejs }}')">
+        <div class="card-main" onclick="openConfession('{{ secret.id }}', '{{ secret.title|escapejs }}', '{{ secret.content|escapejs }}')">
             <div class="card-meta">
                 <span class="anon-handle">#{{ secret.id }}</span>
                 <span class="dot">•</span>
                 <span class="time">{{ secret.created_at|timesince }} ago</span>
             </div>
             <div class="card-body">
-                <p>{{ secret.content|truncatewords:40 }}</p>
+                <h3 id="secret_title">{{ secret.title }}</h3>
+                <p class="linkify-me" id="linkify_text_body">{{ secret.content|truncatewords:30 }}</p>
             </div>
             <div class="card-footer">
                 <span class="comment-trigger">💬{{ secret.comments.count }} Comments</span> 
@@ -44,7 +46,6 @@
 <!--  -->
 <div id="confessionModal" class="modal">
     <div class="modal-content">
-        <a class="close" id="close-sign" onclick="closeModal()">close</a>
         <div id="modalBody"> </div>
     </div>
 </div>

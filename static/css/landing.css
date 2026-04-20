@@ -1,0 +1,166 @@
+body {
+    background: #0a0a0a;
+    color: #eaeaea;
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
+}
+
+/* HERO */
+.landing-hero {
+    position: relative;
+    height: 90vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    overflow: hidden;
+}
+
+.hero-content {
+    z-index: 2;
+}
+
+.hero-title {
+    font-size: 4.5rem;
+    color: #00ff88;
+    letter-spacing: 6px;
+    margin-bottom: 10px;
+    animation: fadeIn 1s ease-in;
+}
+
+.hero-tagline {
+    color: #aaa;
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+    width: 100%;
+}
+
+.hero-tagline span {
+    color: #00ff88;
+}
+
+/* BACKGROUND GLOW */
+.hero-bg {
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, #00ff8840, transparent 70%);
+    filter: blur(120px);
+    animation: pulse 5s infinite ease-in-out;
+}
+
+/* BUTTONS */
+.hero-buttons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+
+.btn-primary,
+.btn-secondary {
+    padding: 12px 24px;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.btn-primary {
+    background: #00ff88;
+    color: black;
+}
+
+.btn-primary:hover {
+    background: #00cc6a;
+}
+
+.btn-secondary {
+    border: 1px solid #00ff88;
+    color: #00ff88;
+}
+
+.btn-secondary:hover {
+    background: #00ff88;
+    color: black;
+}
+
+/* FEATURES */
+.features {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    padding: 60px 20px;
+    text-align: center;
+}
+
+.feature h3 {
+    color: #00ff88;
+    margin-bottom: 10px;
+}
+
+.feature p {
+    color: #888;
+}
+
+/* TRENDING */
+.landing-container {
+    padding: 40px 80px;
+}
+
+.section-label {
+    color: #00ff88;
+    margin-bottom: 20px;
+}
+
+.trending-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.trending-card {
+    background: #111;
+    padding: 20px;
+    border: 1px solid #222;
+    transition: 0.3s;
+}
+
+.trending-card:hover {
+    border-color: #00ff88;
+    transform: translateY(-5px);
+}
+
+.trending-card h3 {
+    color: #00ff88;
+}
+
+.trending-card p {
+    color: #bbb;
+}
+
+.card-stats {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    color: #777;
+}
+
+/* CTA */
+.cta {
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.cta h2 {
+    margin-bottom: 20px;
+}
+
+/* ANIMATIONS */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 0.6; }
+    50% { transform: scale(1.2); opacity: 1; }
+}

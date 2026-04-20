@@ -33,18 +33,18 @@ class AnonymousUser(AbstractUser):
         with open(file_path, "r") as f:
             # Create a list of names, ignoring empty lines
             names = [line.strip() for line in f if line.strip()]
-        # 2. Fallback if file is empty
+        #Fallback if file is empty
         if not names:
             return self._get_random_fallback()
 
-        # 3. Try to find a unique name from the list
+        #Try to find a unique name from the list
         random.shuffle(names)
         for name in names:
             # Check if this name is already in the database
             if not AnonymousUser.objects.filter(username=name).exists():
                 return name
 
-        # 4. Final fallback if ALL names in the file are already taken
+        # Final fallback if ALL names in the file are already taken
         return self._get_random_fallback()
 
     def _get_random_fallback(self):

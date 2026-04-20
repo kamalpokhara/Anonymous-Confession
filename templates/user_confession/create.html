@@ -12,6 +12,7 @@
         
         <form method="POST">
             {% csrf_token %}
+            <input type="text" id="confessionTitle" placeholder="Secret title" name="title" maxlength="100" required>
             <textarea name="content" placeholder="What's your secret?" maxlength="10000" required></textarea>
             
             <div class="form-footer">

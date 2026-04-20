@@ -1,6 +1,24 @@
-function openConfession(id, content) {
+document.addEventListener("DOMContentLoaded", () => {
+  // Select all paragraphs with the linkify-me class
+  const contentAreas = document.querySelectorAll(".linkify-me");
+
+  contentAreas.forEach((area) => {
+    // el.textContent gets the raw text, linkify() adds the <a> tags
+    area.innerHTML = linkify(area.textContent);
+  });
+});
+
+function linkify(text) {
+  const urlPattern = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi;
+  return text.replace(urlPattern, function (url) {
+    return `<a href="${url}" target="_blank" rel="noopener noreferrer" style="color: #00ff88; text-decoration: underline;">${url}</a>`;
+  });
+}
+
+function openConfession(id, title, content) {
   const modal = document.getElementById("confessionModal");
   const body = document.getElementById("modalBody");
+  const linkedContent = linkify(content);
 
   if (modal.style.display === "block" && modal.dataset.currentId === id) {
     closeModal();
@@ -9,30 +27,44 @@ function openConfession(id, content) {
 
   modal.style.display = "block";
   modal.dataset.currentId = id;
+body.innerHTML = `
+<div class="modal-inner" style="width:100%; max-width:100%; box-sizing:border-box; padding:10px;">
 
-  body.innerHTML = `
-<div class="modal-inner" style="width: 100%; max-width: 100%; box-sizing: border-box; padding: 10px;">
-    <header style="margin-bottom: 10px;">
-        <span class="anon-handle" style="font-size: 1.4rem; color: #00ff88;">> Confession #${id}</span>
-        <hr style="border-color: #333; margin-top: 10px;">
-    </header>
+  <header style="display:flex; align-items:center; gap:10px; margin-bottom:28px; padding-bottom:16px; border-bottom:1px solid #1a1a1c;">
+    <button onclick="closeModal()" style="background:transparent; border:1px solid #2a2a2c; color:#555; font-size:11px; font-family:'JetBrains Mono',monospace; padding:5px 12px; border-radius:5px; cursor:pointer; letter-spacing:0.05em;" onmouseover="this.style.borderColor='#ff4444';this.style.color='#ff4444'" onmouseout="this.style.borderColor='#2a2a2c';this.style.color='#555'">✕ close</button>
+    <span style="font-size:11px; color:#333; font-family:'JetBrains Mono',monospace; letter-spacing:0.04em;"><span style="color:#00ff8877;">confession #${id}</span></span>
+  </header>
 
-    <div class="full-text" style="font-size: 1.1rem; padding: 10px 0; color: #d7dadc; margin-bottom: 10px; text-align: justify; display: block; width: 100%; box-sizing: border-box;">
-        ${content}
+  <div style="font-family:'JetBrains Mono',monospace; font-size:12px; color:#00ff88; font-weight:600; letter-spacing:0.06em; margin-bottom:10px; display:flex; align-items:center; gap:8px;">
+    <span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:#00ff88; box-shadow:0 0 8px #00ff8888;"></span>
+    > confession #${id}
+  </div>
+
+  <h2 style="font-size:22px; font-weight:700; color:#f0f0f0; line-height:1.35; letter-spacing:-0.02em; margin:0 0 20px; font-family:'Sora',sans-serif;">${title}</h2>
+
+  <div style="height:1px; background:linear-gradient(90deg,#00ff8833,#00ff8818,transparent); margin-bottom:20px;"></div>
+
+  <div class="full-text linkify-me" style="font-size:15px; line-height:1.75; color:#9a9a9c; text-align:justify; margin-bottom:32px; font-family:'Sora',sans-serif; display:block; width:100%; box-sizing:border-box;">
+    ${linkedContent}
+  </div>
+
+  <section class="comment-area">
+    <div style="font-family:'JetBrains Mono',monospace; font-size:11px; color:#00ff88; letter-spacing:0.1em; font-weight:600; margin-bottom:16px; display:flex; align-items:center; gap:8px;">
+      discussion
+      <span style="flex:1; height:1px; background:#1e1e20; display:inline-block;"></span>
     </div>
 
-    <section class="comment-area">
-        <h3 style="color: #00ff88; margin-bottom: 10px;">Discussion</h3>
-        <div class="reply-input-wrapper" style="margin-bottom: 30px; width: 100%;">
-           <textarea id="newComment" placeholder="Add a comment anonymously..." style="width: 100%; height: 100px; background: #000; border: 1px solid #343536; color: white; padding: 15px; border-radius: 4px; box-sizing: border-box; outline: none; "></textarea>
-            <button onclick="saveComment(${id})" style="margin-top: 10px; background: #00ff88; color: black; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-weight: bold; width: 100%;">
-                Post Comment
-            </button>
-        </div>
-        <div id="commentList" style="width: 100%;"></div>
-    </section>
+    <div class="reply-input-wrapper" style="margin-bottom:28px; width:100%;">
+      <textarea id="newComment" placeholder="Add a comment anonymously..." style="width:100%; height:90px; background:#0a0a0b; border:1px solid #222224; color:#d7dadc; padding:14px 16px; border-radius:8px; box-sizing:border-box; outline:none; font-family:'Sora',sans-serif; font-size:13.5px; line-height:1.6; resize:none; transition:border-color 0.2s;" onfocus="this.style.borderColor='#00ff8855'" onblur="this.style.borderColor='#222224'"></textarea>
+      <button onclick="saveComment(${id})" style="margin-top:10px; background:#00ff88; color:#060f09; border:none; padding:11px 20px; border-radius:7px; cursor:pointer; font-weight:700; font-family:'Sora',sans-serif; font-size:13px; width:100%; letter-spacing:0.02em; transition:all 0.2s;">
+        Post Comment
+      </button>
+    </div>
+
+    <div id="commentList" style="width:100%;"></div>
+  </section>
 </div>
-    `;
+`;
 
   loadComments(id);
 
@@ -120,19 +152,19 @@ async function saveComment(id) {
       const newComment = document.createElement("div");
       newComment.className = "comment-item";
       newComment.style.cssText = "padding: 15px 15px 15px 0px;  color: #ddd;";
+      const safeContent = linkify(data.content);
 
-      newComment.innerHTML = `
-      <div class="reddit-comment" style="border-left: 2px solid #343536; padding-left: 12px; margin-bottom: 15px;">
-        <div style="display: flex; align-items: center; ">
-            <span style="color: #d7dadc; font-weight: 600; font-size: 0.85rem;">Anonymous User</span>
-            <span style="color: #818384; font-size: 0.75rem;">• ${data.created_at}</span>
-          </div>
-          <div style="color: #d7dadc; font-size: 0.95rem; line-height: 1.5; word-wrap: break-word;">
-              ${data.content}
-          </div>
-      </div>
-          
-    `;
+newComment.innerHTML = `
+  <div class="reddit-comment" style="border-left:2px solid #222224; padding-left:14px; margin-bottom:4px;">
+    <div style="display:flex; align-items:center; gap:8px; margin-bottom:7px;">
+      <span style="font-family:'JetBrains Mono',monospace; color:#00ff8899; font-weight:600; font-size:11px; letter-spacing:0.04em;">anon_user</span>
+      <span style="color:#444; font-family:'JetBrains Mono',monospace; font-size:10px;">• ${data.created_at}</span>
+    </div>
+    <div style="color:#8a8a8c; font-size:13.5px; line-height:1.65; text-align:justify;font-family:'Sora',sans-serif; word-wrap:break-word;">
+      ${data.content}
+    </div>
+  </div>
+`;
       list.prepend(newComment);
     }
   } catch (error) {
@@ -149,6 +181,7 @@ async function loadComments(id) {
     if (data.length > 0) {
       list.innerHTML = data
         .map((c) => {
+          const safeContent = linkify(c.content);
           // Format the date if it exists, otherwise show "Recent"
           const date = c.created_at
             ? new Date(c.created_at).toLocaleDateString(undefined, {
@@ -160,17 +193,17 @@ async function loadComments(id) {
             : "Recent";
 
           return `
-            <div class="comment-container" style="margin-bottom: 15px;">
-                <div class="reddit-comment" style="border-left: 2px solid #343536; padding-left: 12px; margin-bottom: 15px;">
-                    <div style="display: flex; align-items: center; margin-bottom: 6px; gap: 8px;">
-                        <span style="color: #d7dadc; font-weight: 600; font-size: 0.85rem;">Anonymous User</span>
-                        <span style="color: #818384; font-size: 0.75rem;">• ${date}</span>
-                    </div>
-                    <div style="color: #d7dadc; font-size: 0.95rem; line-height: 1.5; word-wrap: break-word;">
-                        ${c.content}
-                    </div>
+            <div class="comment-container" style="margin-bottom:4px;">
+              <div class="reddit-comment" style="border-left:2px solid #222224; padding-left:14px; margin-bottom:4px;">
+                <div style="display:flex; align-items:center; gap:8px; margin-bottom:7px;">
+                  <span style="font-family:'JetBrains Mono',monospace; color:#00ff8899; font-weight:600; font-size:11px; letter-spacing:0.04em;">anon_user</span>
+                  <span style="color:#444; font-family:'JetBrains Mono',monospace; font-size:10px;">• ${date}</span>
                 </div>
-                <hr style="border: 0; border-top: 1px solid #1a1a1b; margin: 0;">
+                <div style="color:#8a8a8c; text-align:justify;font-size:13.5px; line-height:1.65; font-family:'Sora',sans-serif; word-wrap:break-word;">
+                  ${safeContent}
+                </div>
+              </div>
+              <hr style="border:0; border-top:1px solid #141416; margin:14px 0;">
             </div>
           `;
         })

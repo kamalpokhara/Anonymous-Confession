@@ -11,11 +11,14 @@ from django.http import JsonResponse
 def create_confession(request):
     if request.method == "POST":
         # Get the content from the textarea (name="content" in HTML)
+        title = request.POST.get("title")  # Get the title from the form
         content = request.POST.get("content")   
         # validation: ensure it's not empty
         if content and content.strip():
             # Create the object and link it to the logged-in user
-            Confession.objects.create(user=request.user, content=content)
+            Confession.objects.create(
+                user=request.user, title=title if title else "Untitled", content=content
+            )
             messages.success(request, "Your secret has been cast into the void.")
             return redirect("home")
         else:

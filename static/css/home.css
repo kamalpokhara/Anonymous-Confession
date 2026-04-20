@@ -1,46 +1,58 @@
-/* The Background Overlay */
 .modal {
   display: none;
   position: fixed;
-  z-index: 2000; /* Ensure it's above everything */
-  left: 0;
-  top: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: #030303; /* Deep black for focus */
-  overflow-y: auto; /* Makes the entire screen scrollable if content is long */
+  z-index: 2000;
+  left: 0; top: 0;
+  width: 100vw; height: 100vh;
+  background: rgba(3, 3, 3, 0.88);
+  backdrop-filter: blur(4px);
+  overflow-y: auto;
 }
 
-/* The Content Wrapper */
+/* Modal content panel */
 .modal-content {
-  
-  background-color: #1a1a1b; /* Reddit dark color */
-  margin: 0 auto; /* Center horizontally */
-  padding: 40px 20px;
-
-  max-width: 800px; /* Limits the text width for readability */
-  min-height: 100vh; /* Ensures it stretches top-to-bottom */
-  border-left: 1px solid #343536;
-  border-right: 1px solid #343536;
-  box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
-  
+  background: #111113;
+  margin: 0 auto;
+  padding: 32px 28px 60px;
+  max-width: 800px;
+  min-height: 100vh;
+  border-left: 1px solid #1e1e20;
+  border-right: 1px solid #1e1e20;
+  box-sizing: border-box;
 }
 
+body{
+  text-align: center !important;
+  font-family:'Sora',sans-serif;
+}
+
+h2{
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: left;
+}
+#heading-2{
+  margin-top: 15px;
+  padding-left: 15px;
+  border-left:5px solid #00ff88;
+  color: #818384;
+  font-size: medium;
+}
 /* The Close Button - Now floating at the top-right */
 #close-sign {
-  color: #818384;
+  color: #ff0000;
   font-size: 15px;
   font-weight: bold;
   cursor: pointer;
   transition: color 0.2s;
   /* border: 2px solid #818384; */
   padding: 5px;
+  margin-left: 7px;
 }
 
 #close-sign:hover {
-  color: #ff0000;
+  color: #818384;
 }
-
 
 .confession-grid {
   max-width: 800px;
@@ -48,7 +60,7 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
-  padding: 20px;
+  padding: 20px 20px 20px 0px;
 }
 
 .confession-card {
@@ -57,7 +69,8 @@
   border-radius: 8px;
   display: flex;
   transition: border 0.2s;
-  overflow: hidden;
+  /* overflow: hidden; */
+  text-align: justify;
 }
 
 .confession-card:hover {
@@ -97,7 +110,7 @@
 /* Main Content Area */
 .card-main {
   flex-grow: 1;
-  padding: 12px;
+  padding: 17px;
 }
 
 .card-meta {
@@ -112,9 +125,15 @@
 }
 
 .card-body p {
-  color: #d7dadc;
+  color: #9A9A9C;
   font-size: 15px;
   line-height: 21px;
+}
+.card-title {
+  color: #ffffff;
+  margin: 8px 0;
+  font-size: 1.2rem;
+  font-weight: 600;
 }
 
 .card-footer {
@@ -123,4 +142,3 @@
   font-weight: bold;
   color: #818384;
 }
-

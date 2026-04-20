@@ -48,7 +48,7 @@ async function handleRegistration() {
       const result = await response.json();
 
       if (response.ok) {
-        window.location.href = "/";
+        window.location.href = "/home/";
       } else {
         alert(result.error || "Registration failed.");
         registerBtn.disabled = false;

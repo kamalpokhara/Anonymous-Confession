@@ -1,0 +1,71 @@
+{% extends "accounts/base.html"  %}
+
+{% block title %}Anonymous is Landing{% endblock %}
+
+{% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/landing.css' %}">
+{% endblock %}
+
+{% block navbar %}{% endblock navbar %}
+
+{% block content %}
+<!-- HERO -->
+<section class="landing-hero">
+    <div class="hero-content">
+        <h1 class="hero-title">ANONYMOUS</h1>
+        <p class="hero-tagline">
+            <b>Speak freely. No identity. No tracking.</b>  
+            <span><b>Powered by Proof of Work.</b></span>
+        </p>
+
+        <div class="hero-buttons">
+            <a href="{% url 'home' %}" class="btn-primary">Enter</a>
+            <a href="{% url 'register' %}" class="btn-secondary">Create Identity</a>
+        </div>
+    </div>
+
+    <div class="hero-bg"></div>
+</section>
+
+<!-- FEATURES -->
+<section class="features">
+    <div class="feature">
+        <h3>Anonymous</h3>
+        <p>No personal data. No email. No tracking.</p>
+    </div>
+    <div class="feature">
+        <h3>Proof of Work</h3>
+        <p>Bot-resistant system for fair participation.</p>
+    </div>
+    <div class="feature">
+        <h3>Community</h3>
+        <p>Post, like, and comment on confessions.</p>
+    </div>
+</section>
+
+<!-- TRENDING -->
+<section class="landing-container">
+    <h2 class="section-label">Trending Confessions</h2>
+
+    <div class="trending-grid">
+        {% for secret in popular %}
+        <div class="trending-card">
+            <h3>{{ secret.title }}</h3>
+            <p>{{ secret.content|truncatewords:20 }}</p>
+
+            <div class="card-stats">
+                <span>▲ {{ secret.total_likes }}</span>
+                <span>💬 {{ secret.comments.count }}</span>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+    <h2>Ready to confess?</h2>
+    <a href="{% url 'register' %}" class="btn-primary">Join Now</a>
+</section>
+{% endblock %}

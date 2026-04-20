@@ -1,6 +1,6 @@
 import random
 
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, redirect, render
 import uuid
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -8,7 +8,7 @@ from .models import AnonymousUser
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
-
+from user_confession.models import Confession
 
 # centralized function to determine PoW difficulty based on URL path
 def get_pow_difficulty(path):
@@ -53,8 +53,8 @@ def register_user(request):
         user = AnonymousUser.objects.create_user(username=username, password=password)
         user.set_password(password)
         user.save()
-
         login(request, user)
+
     return JsonResponse({'message': 'User registered successfully', 'username': user.username})
 
 
@@ -66,3 +66,51 @@ def home(request):
         'confessions': confessions
     }
     return render(request, "accounts/home.html", context)
+
+
+@login_required
+def dashboard(request):
+    # Fetching confessions and comments created by this user
+    my_posts = Confession.objects.filter(user=request.user).order_by("-created_at")
+
+    return render(
+        request,
+        "accounts/dashboard.html",
+        {
+            "confessions": my_posts,
+            "total_posts": my_posts.count(),
+        },
+    )
+
+from django.contrib import messages
+
+@login_required
+def delete_confession(request, pk):
+    # Security: Only get the confession if it belongs to THIS user
+    confession = get_object_or_404(Confession, pk=pk, user=request.user)
+
+    if request.method == "POST":
+        confession.delete()
+        messages.success(request, "Confession deleted from the void.")
+        return redirect("dashboard")  # Redirect back to the profile page
+
+
+from django.db.models import Count
+
+
+def landing_page(request):
+    # Get the 2 most liked confessions
+    popular_confessions = Confession.objects.annotate(
+        like_count=Count("likes")
+    ).order_by("-like_count")[:2]
+
+    # Get the 2 most commented confessions
+    trending_confessions = Confession.objects.annotate(
+        comment_count=Count("comments")
+    ).order_by("-comment_count")[:2]
+
+    return render(
+        request,
+        "accounts/landing.html",
+        {"popular": popular_confessions, "trending": trending_confessions},
+    )

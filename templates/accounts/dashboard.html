@@ -1,0 +1,41 @@
+{% extends 'accounts/base.html' %}
+{% block title %}User Dashboard{% endblock %}
+
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="dashboard-container">
+    
+    <header class="dashboard-header">
+        <h1>USER: {{ request.user.username }}</h1>
+        <span>Total Confessions: {{ total_posts }}</span> 
+        <!-- <a href="{% url 'home' %}" >Confess</a> -->
+    </header>
+
+    {% for post in confessions %}
+    <div class="post-card">
+        <div class="post-content-wrapper">
+            <div class="post-main-content">
+                <span class="post-date">Released on {{ post.created_at|date:"M d, Y" }}</span>
+                <p class="post-text">{{ post.content }}</p>
+            </div>
+            
+            <form action="{% url 'delete_confession' post.pk %}" method="POST" onsubmit="return confirm('Delete this forever?');">
+                {% csrf_token %}
+                <button type="submit" class="btn-delete">Delete</button>
+            </form>
+        </div>
+    </div>
+    {% empty %}
+    <div class="empty-state">
+        <p>Your history is empty. No shadows found.</p>
+        <a href="{% url 'home' %}">Go confess something.</a>
+    </div>
+    {% endfor %}
+
+</div>
+{% endblock %}
