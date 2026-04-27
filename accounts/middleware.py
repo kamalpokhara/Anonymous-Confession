@@ -22,7 +22,7 @@ class ProofOfWorkMiddleware:
                 return JsonResponse(
                     {"error": "Security parameters missing"}, status=403
                 )
-            print(f"DEBUG: Challenge={challenge}, User={username}, Nonce={nonce}")
+            # print(f"DEBUG: Challenge={challenge}, User={username}, Nonce={nonce}")
             content = f"{challenge}{username}{nonce}".encode()
             result_hash = hashlib.sha256(content).hexdigest()
 
