@@ -1,3 +1,5 @@
+import os
+
 SECRET_KEY = os.environ.get("SECRET_KEY", "fallback-secret-key")
 """
 Django settings for anony_confession project.
