@@ -1,5 +1,5 @@
-# AnonyConfess 🎭
-> **Status: Work in Progress (Development Phase)**
+# AnonyConfess Site (Proof Of Work enforced)
+> **Status: Completed (pull-make-usernames.txt-on-root-add-usernames-runserver)**
 
 AnonyConfess is a privacy-first web application designed for truly anonymous digital expressions. By removing traditional identity markers like email addresses and implementing a Proof-of-Work (PoW) gate, it ensures a bot-free environment without compromising user privacy.
 
@@ -30,3 +30,9 @@ To get this project running on your local machine:
    ```bash
    git clone [https://github.com/kamalpokhara/Anonymous-Confession.git](https://github.com/kamalpokhara/Anonymous-Confession.git)
    cd Anonymous-Confession
+2. **Create usernames.txt and add sample usernames**
+3. **Runserver and check console for processing**
+
+---
+
+:) Kamal Poudel
