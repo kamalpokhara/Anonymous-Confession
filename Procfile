@@ -1,1 +1,1 @@
-web: gunicorn yourproject.wsgi
+web: gunicorn anony_confession.wsgi
